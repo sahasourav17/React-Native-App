@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import {
   View,
   Text,
@@ -7,30 +7,39 @@ import {
   Dimensions,
 } from "react-native";
 import Swiper from "react-native-swiper";
+import "../utils/i18n";
 
 import OnboardingImage1 from "../assets/Onboarding/Illustration.svg";
 import OnboardingImage2 from "../assets/Onboarding/Illustration-1.svg";
 import OnboardingImage3 from "../assets/Onboarding/Illustration-2.svg";
+import { useTranslation } from "react-i18next";
 
 const { width, height } = Dimensions.get("window");
 
 const OnboardingScreen = ({ navigation }) => {
+  const { t, i18n } = useTranslation();
+  const isEnglish = i18n.language === "en";
+
+  const toggleLanguage = () => {
+    i18n.changeLanguage(isEnglish ? "bn" : "en");
+  };
+
   const swiperRef = useRef(null);
 
   const pages = [
     {
-      title: "Welcome to Surf.",
+      title: t("onboard1stScreen"),
       description:
         "I provide essential stuff for your ui designs every tuesday!",
       Image: OnboardingImage1,
     },
     {
-      title: "Design Template uploads Every Tuesday!",
-      description: "Make sure to take a look my uplad profile every tuesday.",
+      title: t("onboard2ndScreen"),
+      description: "Make sure to take a look my upload profile every tuesday.",
       Image: OnboardingImage2,
     },
     {
-      title: "Download now!",
+      title: t("onboard3rdScreen"),
       description:
         "You can follow me if you wanted comment on any to get some freebies",
       Image: OnboardingImage3,
@@ -46,7 +55,7 @@ const OnboardingScreen = ({ navigation }) => {
   };
 
   const handleSignup = () => {
-    navigation.navigate("Settings");
+    navigation.navigate("Home");
   };
 
   return (
@@ -74,12 +83,17 @@ const OnboardingScreen = ({ navigation }) => {
       </Swiper>
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={handleSignup} style={styles.signUpBtn}>
-          <Text style={styles.btnText}>Sign Up</Text>
+          <Text style={styles.btnText}>{t("signup")}</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={handleSignIn} style={styles.existingUserBtn}>
-          <Text style={styles.btnText}>Existing User</Text>
+          <Text style={styles.btnText}>{t("existingUser")}</Text>
         </TouchableOpacity>
       </View>
+      <TouchableOpacity style={styles.languageButton} onPress={toggleLanguage}>
+        <Text style={styles.languageButtonText}>
+          {isEnglish ? "বাংলা" : "English"}
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -90,6 +104,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   wrapper: {},
+  languageButton: {
+    position: "absolute",
+    top: 40,
+    right: 20,
+    backgroundColor: "#f0f0f0",
+    padding: 10,
+    borderRadius: 5,
+  },
+  languageButtonText: {
+    color: "#e3007b",
+    fontSize: 16,
+  },
   slide: {
     flex: 1,
     alignItems: "center",

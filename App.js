@@ -23,6 +23,7 @@ import {
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Feather from "@expo/vector-icons/Feather";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import "./utils/i18n";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -67,8 +68,7 @@ function MainScreenTabs() {
 
 export default function App() {
   let persistor = persistStore(store);
-  const appState = useRef(AppState.currentState);
-  console.log(`App state: ${JSON.stringify(appState)}`);
+
   return (
     <SafeAreaProvider>
       <Provider store={store}>
